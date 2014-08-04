@@ -1,14 +1,4 @@
-require 'lists'
-require 'tasks'
-require 'rspec'
-
-DB = PG.connect({:dbname => 'to_do'})
-
-RSpec.configure do |config|
-  config.after(:each) do
-    DB.exec("DELETE FROM tasks *;")
-  end
-end
+require 'spec_helper'
 
 describe :Task do
   describe :initialize do
@@ -45,4 +35,3 @@ describe :Task do
     end
   end
 end
-
