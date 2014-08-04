@@ -2,10 +2,11 @@ require 'pg'
 
 class Task
 
-  attr_reader :name
+  attr_reader :name, :id
 
-  def initialize(name)
+  def initialize(name, id)
     @name = name
+    @id = id
   end
 
   def self.all
@@ -13,17 +14,18 @@ class Task
     tasks = []
     results.each do |result|
       name = result['name']
-      tasks << Task.new(name)
+      id = result['list_id'].to_i
+      tasks << Task.new(name, id)
     end
     tasks
   end
 
   def save
-    DB.exec("INSERT INTO tasks (name) VALUES ('#{name}');")
+    DB.exec("INSERT INTO tasks (name, list_id) VALUES ('#{name}', #{id});")
   end
 
   def ==(another_task)
-    self.name == another_task.name
+    self.name == another_task.name && self.id == another_task.id
   end
 end
 
